@@ -4,18 +4,40 @@
  */
 package Classes;
 
+import java.awt.Dimension;
+import javax.swing.ScrollPaneConstants;
+
 /**
  *
  * @author Usuario
  */
 public class Interface extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Interface
-     */
+    
     public Interface() {
+        //Método que cria os botões automaticamente pelo Design
         initComponents();
-    }
+        //Coloca o tamanho da tela
+        setSize(1500, 800);
+        //Não permite mudança no tamanho da tela
+        setResizable(false);
+        //Inicia tela centralizada
+        setLocationRelativeTo(null);
+        
+        novo.setPreferredSize(new Dimension(90, 60));
+        
+        //Método já criando a instância da classe que adiciona linhas no editor;
+        Editor.setBorder(new NumberedBorder());
+        
+        //Mantém barras de rolagem do editor sempre ligadas
+        BarraRolagemEditor.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        BarraRolagemEditor.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        
+        BarraRolagemTexto.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        BarraRolagemTexto.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        
+        SplitPane.setDividerLocation(0.8);
+    }//contrutor Interface
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,25 +48,204 @@ public class Interface extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        BarraFerramentas = new javax.swing.JToolBar();
+        novo = new javax.swing.JButton();
+        abrir = new javax.swing.JButton();
+        salvar = new javax.swing.JButton();
+        copiar = new javax.swing.JButton();
+        colar = new javax.swing.JButton();
+        recortar = new javax.swing.JButton();
+        compilar = new javax.swing.JButton();
+        equipe = new javax.swing.JButton();
+        StatusPainel = new javax.swing.JPanel();
+        Status = new javax.swing.JLabel();
+        SplitPane = new javax.swing.JSplitPane();
+        BarraRolagemEditor = new javax.swing.JScrollPane();
+        Editor = new javax.swing.JEditorPane();
+        BarraRolagemTexto = new javax.swing.JScrollPane();
+        Texto = new javax.swing.JTextArea();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Interface");
-        setMaximumSize(new java.awt.Dimension(1500, 800));
-        setMinimumSize(new java.awt.Dimension(1500, 800));
         setResizable(false);
+
+        BarraFerramentas.setRollover(true);
+        BarraFerramentas.setPreferredSize(new java.awt.Dimension(1488, 70));
+
+        novo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IconNew30x30.png"))); // NOI18N
+        novo.setText("novo [ctrl+n]");
+        novo.setFocusable(false);
+        novo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        novo.setPreferredSize(new java.awt.Dimension(100, 60));
+        novo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        novo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                novoActionPerformed(evt);
+            }
+        });
+        BarraFerramentas.add(novo);
+
+        abrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IconAbrir30x30.png"))); // NOI18N
+        abrir.setText("abrir [ctrl+o]");
+        abrir.setFocusable(false);
+        abrir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        abrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BarraFerramentas.add(abrir);
+
+        salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IconSalvar30x30.png"))); // NOI18N
+        salvar.setText("salvar [ctrl+s]");
+        salvar.setFocusable(false);
+        salvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        salvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salvarActionPerformed(evt);
+            }
+        });
+        BarraFerramentas.add(salvar);
+
+        copiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IconCopiar30x30.png"))); // NOI18N
+        copiar.setText("copiar [ctrl+c]");
+        copiar.setFocusable(false);
+        copiar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        copiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        copiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copiarActionPerformed(evt);
+            }
+        });
+        BarraFerramentas.add(copiar);
+
+        colar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IconCopiar30x30.png"))); // NOI18N
+        colar.setText("colar [ctrl+v]");
+        colar.setFocusable(false);
+        colar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        colar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        colar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colarActionPerformed(evt);
+            }
+        });
+        BarraFerramentas.add(colar);
+
+        recortar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IcontRecortar30x30.png"))); // NOI18N
+        recortar.setText("recortar [ctrl+x]");
+        recortar.setFocusable(false);
+        recortar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        recortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        recortar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recortarActionPerformed(evt);
+            }
+        });
+        BarraFerramentas.add(recortar);
+
+        compilar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IconCompilar30x28.png"))); // NOI18N
+        compilar.setText("compilar [F7]");
+        compilar.setFocusable(false);
+        compilar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        compilar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        compilar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compilarActionPerformed(evt);
+            }
+        });
+        BarraFerramentas.add(compilar);
+
+        equipe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IconEquipe30x30.png"))); // NOI18N
+        equipe.setText("equipe [F1]");
+        equipe.setFocusable(false);
+        equipe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        equipe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                equipeActionPerformed(evt);
+            }
+        });
+        BarraFerramentas.add(equipe);
+
+        Status.setPreferredSize(new java.awt.Dimension(0, 25));
+
+        javax.swing.GroupLayout StatusPainelLayout = new javax.swing.GroupLayout(StatusPainel);
+        StatusPainel.setLayout(StatusPainelLayout);
+        StatusPainelLayout.setHorizontalGroup(
+            StatusPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StatusPainelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        StatusPainelLayout.setVerticalGroup(
+            StatusPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Status, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        SplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        BarraRolagemEditor.setViewportView(Editor);
+
+        SplitPane.setTopComponent(BarraRolagemEditor);
+
+        Texto.setEditable(false);
+        Texto.setColumns(20);
+        Texto.setRows(5);
+        BarraRolagemTexto.setViewportView(Texto);
+
+        SplitPane.setRightComponent(BarraRolagemTexto);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1500, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BarraFerramentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(StatusPainel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SplitPane))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(BarraFerramentas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(StatusPainel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_salvarActionPerformed
+
+    private void copiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copiarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_copiarActionPerformed
+
+    private void colarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_colarActionPerformed
+
+    private void recortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recortarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_recortarActionPerformed
+
+    private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_compilarActionPerformed
+
+    private void equipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_equipeActionPerformed
+
+    private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_novoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -82,5 +283,21 @@ public class Interface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToolBar BarraFerramentas;
+    private javax.swing.JScrollPane BarraRolagemEditor;
+    private javax.swing.JScrollPane BarraRolagemTexto;
+    private javax.swing.JEditorPane Editor;
+    private javax.swing.JSplitPane SplitPane;
+    private javax.swing.JLabel Status;
+    private javax.swing.JPanel StatusPainel;
+    private javax.swing.JTextArea Texto;
+    private javax.swing.JButton abrir;
+    private javax.swing.JButton colar;
+    private javax.swing.JButton compilar;
+    private javax.swing.JButton copiar;
+    private javax.swing.JButton equipe;
+    private javax.swing.JButton novo;
+    private javax.swing.JButton recortar;
+    private javax.swing.JButton salvar;
     // End of variables declaration//GEN-END:variables
 }
