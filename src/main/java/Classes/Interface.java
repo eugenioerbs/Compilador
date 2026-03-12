@@ -37,6 +37,8 @@ public class Interface extends javax.swing.JFrame {
         BarraRolagemTexto.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         
         SplitPane.setDividerLocation(0.8);
+        
+        BarraFerramentas.setFloatable(false);
     }//contrutor Interface
 
     /**
