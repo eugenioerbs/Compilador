@@ -5,6 +5,13 @@
 package Classes;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
 /**
@@ -12,6 +19,7 @@ import javax.swing.ScrollPaneConstants;
  * @author Usuario
  */
 public class Interface extends javax.swing.JFrame {
+    private static final String EQUIPE= "Eugenio Victor Erbs\nTiago Segatti \nYasmin" ;
 
     
     public Interface() {
@@ -39,7 +47,26 @@ public class Interface extends javax.swing.JFrame {
         SplitPane.setDividerLocation(0.8);
         
         BarraFerramentas.setFloatable(false);
+        configurarAtalhoF1();
     }//contrutor Interface
+        private void configurarAtalhoF1() {
+        // Obtém os mapas de entrada e ação do root pane
+        InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getRootPane().getActionMap();
+        
+        // Define a tecla F1 como atalho
+        KeyStroke f1 = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0);
+        inputMap.put(f1, "mostrarEquipe");
+        
+        // Define a ação que será executada quando F1 for pressionado
+        actionMap.put("mostrarEquipe", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                // Chama o mesmo método do botão equipe
+                equipeActionPerformed(e);
+            }
+        });
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -242,7 +269,7 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_compilarActionPerformed
 
     private void equipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipeActionPerformed
-        // TODO add your handling code here:
+     Texto.setText(EQUIPE);
     }//GEN-LAST:event_equipeActionPerformed
 
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
