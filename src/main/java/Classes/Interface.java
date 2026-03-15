@@ -24,23 +24,130 @@ public class Interface extends javax.swing.JFrame {
         //Inicia tela centralizada
         setLocationRelativeTo(null);
         
+        //Garantindo que os botões tenham o mesmo tamanho
         novo.setPreferredSize(new Dimension(90, 60));
+        abrir.setPreferredSize(new Dimension(90, 60));
+        salvar.setPreferredSize(new Dimension(90, 60));
+        copiar.setPreferredSize(new Dimension(90, 60));
+        colar.setPreferredSize(new Dimension(90, 60));
+        recortar.setPreferredSize(new Dimension(90, 60));
+        compilar.setPreferredSize(new Dimension(90, 60));
+        equipe.setPreferredSize(new Dimension(90, 60));
         
         //Método já criando a instância da classe que adiciona linhas no editor;
         Editor.setBorder(new NumberedBorder());
         
-        //Mantém barras de rolagem do editor sempre ligadas
+        //Mantém barras de rolagem do editor sempre ligadas (horizontais e verticais)
         BarraRolagemEditor.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         BarraRolagemEditor.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         
         BarraRolagemTexto.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         BarraRolagemTexto.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         
+        //Inicializando o divisor menor em baixo
         SplitPane.setDividerLocation(0.8);
         
+        //Proíbe a barra de ferramentas ficar floatable
         BarraFerramentas.setFloatable(false);
+        
+        configurarAtalhos();
+        
     }//contrutor Interface
+    
+    //Atalhos dos botões serão alocados aqui dentro
+    private void configurarAtalhos() {
+    //Atalho "novo"
+    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(javax.swing.KeyStroke.getKeyStroke("control N"), "acaoNovo");
+    
+    getRootPane().getActionMap().put("acaoNovo", new javax.swing.AbstractAction() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            novo.doClick();
+        }
+    });
+    
+    // Abrir
+    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(javax.swing.KeyStroke.getKeyStroke("control O"), "acaoAbrir");
+    
+    getRootPane().getActionMap().put("acaoAbrir", new javax.swing.AbstractAction() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            abrir.doClick();
+        }
+    });
+    
+    
+    // Salvar
+    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(javax.swing.KeyStroke.getKeyStroke("control S"), "acaoSalvar");
+    
+    getRootPane().getActionMap().put("acaoSalvar", new javax.swing.AbstractAction() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            salvar.doClick();
+        }
+    });
+    
+    // Copiar
+    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(javax.swing.KeyStroke.getKeyStroke("control C"), "acaoCopiar");
+    
+    getRootPane().getActionMap().put("acaoCopiar", new javax.swing.AbstractAction() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            copiar.doClick();
+        }
+    });
+   
+    // Colar
+    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(javax.swing.KeyStroke.getKeyStroke("control V"), "acaoColar");
+    
+    getRootPane().getActionMap().put("acaoColar", new javax.swing.AbstractAction() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            colar.doClick();
+        }
+    });
+    
+    // Recortar
+    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(javax.swing.KeyStroke.getKeyStroke("control X"), "acaoRecortar");
+    
+    getRootPane().getActionMap().put("acaoRecortar", new javax.swing.AbstractAction() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            recortar.doClick();
+        }
+    });
+    
+    // Compilar
+    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(javax.swing.KeyStroke.getKeyStroke("F7"), "acaoCompilar");
+    
+    getRootPane().getActionMap().put("acaoCompilar", new javax.swing.AbstractAction() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            compilar.doClick();
+        }
+    });
+    
+    // Equipe
+    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(javax.swing.KeyStroke.getKeyStroke("F1"), "acaoEquipe");
+    
+    getRootPane().getActionMap().put("acaoEquipe", new javax.swing.AbstractAction() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            equipe.doClick();
+        }
+    });
+    
+    }//fim metodo atalhos
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,6 +184,7 @@ public class Interface extends javax.swing.JFrame {
         novo.setText("novo [ctrl+n]");
         novo.setFocusable(false);
         novo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        novo.setMaximumSize(new java.awt.Dimension(92, 58));
         novo.setPreferredSize(new java.awt.Dimension(100, 60));
         novo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         novo.addActionListener(new java.awt.event.ActionListener() {
@@ -90,6 +198,7 @@ public class Interface extends javax.swing.JFrame {
         abrir.setText("abrir [ctrl+o]");
         abrir.setFocusable(false);
         abrir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        abrir.setMaximumSize(new java.awt.Dimension(92, 58));
         abrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         BarraFerramentas.add(abrir);
 
@@ -97,6 +206,8 @@ public class Interface extends javax.swing.JFrame {
         salvar.setText("salvar [ctrl+s]");
         salvar.setFocusable(false);
         salvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        salvar.setMaximumSize(new java.awt.Dimension(92, 58));
+        salvar.setMinimumSize(new java.awt.Dimension(92, 58));
         salvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         salvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,6 +220,8 @@ public class Interface extends javax.swing.JFrame {
         copiar.setText("copiar [ctrl+c]");
         copiar.setFocusable(false);
         copiar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        copiar.setMaximumSize(new java.awt.Dimension(92, 58));
+        copiar.setMinimumSize(new java.awt.Dimension(92, 58));
         copiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         copiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,6 +234,8 @@ public class Interface extends javax.swing.JFrame {
         colar.setText("colar [ctrl+v]");
         colar.setFocusable(false);
         colar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        colar.setMaximumSize(new java.awt.Dimension(92, 58));
+        colar.setMinimumSize(new java.awt.Dimension(92, 58));
         colar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         colar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +260,9 @@ public class Interface extends javax.swing.JFrame {
         compilar.setText("compilar [F7]");
         compilar.setFocusable(false);
         compilar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        compilar.setMaximumSize(new java.awt.Dimension(92, 58));
+        compilar.setMinimumSize(new java.awt.Dimension(92, 58));
+        compilar.setPreferredSize(new java.awt.Dimension(92, 58));
         compilar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         compilar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,6 +275,8 @@ public class Interface extends javax.swing.JFrame {
         equipe.setText("equipe [F1]");
         equipe.setFocusable(false);
         equipe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipe.setMaximumSize(new java.awt.Dimension(92, 58));
+        equipe.setMinimumSize(new java.awt.Dimension(0, 0));
         equipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         equipe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,27 +346,31 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_salvarActionPerformed
 
     private void copiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copiarActionPerformed
-        // TODO add your handling code here:
+        Editor.copy();
     }//GEN-LAST:event_copiarActionPerformed
 
     private void colarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colarActionPerformed
-        // TODO add your handling code here:
+        Editor.paste();
     }//GEN-LAST:event_colarActionPerformed
 
     private void recortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recortarActionPerformed
-        // TODO add your handling code here:
+        Editor.cut();
     }//GEN-LAST:event_recortarActionPerformed
 
     private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
-        // TODO add your handling code here:
+        Editor.setText("");
+        Texto.setText("compilação de programas ainda não foi implementada");
     }//GEN-LAST:event_compilarActionPerformed
 
     private void equipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipeActionPerformed
-        // TODO add your handling code here:
+        Editor.setText("");
+        Texto.setText("Eugênio V. Erbs \nTiago Segatti\nYasmim");
     }//GEN-LAST:event_equipeActionPerformed
 
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
-        // TODO add your handling code here:
+        Editor.setText("");
+        Texto.setText("");
+        Status.setText("");
     }//GEN-LAST:event_novoActionPerformed
 
     /**
