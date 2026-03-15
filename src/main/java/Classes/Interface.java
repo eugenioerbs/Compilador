@@ -328,7 +328,7 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_recortarActionPerformed
 
     private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
-        // TODO add your handling code here:
+        Texto.setText("compilação de programas ainda não foi implementada");
     }//GEN-LAST:event_compilarActionPerformed
 
     private void equipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipeActionPerformed
