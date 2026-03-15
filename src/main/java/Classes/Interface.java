@@ -47,26 +47,84 @@ public class Interface extends javax.swing.JFrame {
         SplitPane.setDividerLocation(0.8);
         
         BarraFerramentas.setFloatable(false);
-        configurarAtalhoF1();
+        configurarTodosAtalhos();
     }//contrutor Interface
-        private void configurarAtalhoF1() {
-        // Obtém os mapas de entrada e ação do root pane
+    private void configurarTodosAtalhos() {
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = getRootPane().getActionMap();
-        
-        // Define a tecla F1 como atalho
-        KeyStroke f1 = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0);
-        inputMap.put(f1, "mostrarEquipe");
-        
-        // Define a ação que será executada quando F1 for pressionado
-        actionMap.put("mostrarEquipe", new AbstractAction() {
+
+        // Ctrl+N - Novo
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK), "novo");
+        actionMap.put("novo", new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                // Chama o mesmo método do botão equipe
+                novoActionPerformed(e);
+            }
+        });
+
+        // Ctrl+O - Abrir
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK), "abrir");
+        actionMap.put("abrir", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirActionPerformed(e);
+            }
+        });
+
+        // Ctrl+S - Salvar
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), "salvar");
+        actionMap.put("salvar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                salvarActionPerformed(e);
+            }
+        });
+
+        // Ctrl+C - Copiar
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), "copiar");
+        actionMap.put("copiar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                copiarActionPerformed(e);
+            }
+        });
+
+        // Ctrl+V - Colar
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK), "colar");
+        actionMap.put("colar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                colarActionPerformed(e);
+            }
+        });
+
+        // Ctrl+X - Recortar
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK), "recortar");
+        actionMap.put("recortar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                recortarActionPerformed(e);
+            }
+        });
+
+        // F7 - Compilar
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0), "compilar");
+        actionMap.put("compilar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                compilarActionPerformed(e);
+            }
+        });
+
+        // F1 - Equipe
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), "equipe");
+        actionMap.put("equipe", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 equipeActionPerformed(e);
             }
         });
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -118,6 +176,11 @@ public class Interface extends javax.swing.JFrame {
         abrir.setFocusable(false);
         abrir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         abrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        abrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirActionPerformed(evt);
+            }
+        });
         BarraFerramentas.add(abrir);
 
         salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IconSalvar30x30.png"))); // NOI18N
@@ -275,6 +338,10 @@ public class Interface extends javax.swing.JFrame {
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_novoActionPerformed
+
+    private void abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_abrirActionPerformed
 
     /**
      * @param args the command line arguments
