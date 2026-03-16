@@ -13,7 +13,8 @@ import javax.swing.ScrollPaneConstants;
  */
 public class Interface extends javax.swing.JFrame {
 
-    
+    private String caminhoArquivoAtual = null;
+
     public Interface() {
         //Método que cria os botões automaticamente pelo Design
         initComponents();
@@ -23,7 +24,7 @@ public class Interface extends javax.swing.JFrame {
         setResizable(false);
         //Inicia tela centralizada
         setLocationRelativeTo(null);
-        
+
         //Garantindo que os botões tenham o mesmo tamanho
         novo.setPreferredSize(new Dimension(90, 60));
         abrir.setPreferredSize(new Dimension(90, 60));
@@ -33,121 +34,119 @@ public class Interface extends javax.swing.JFrame {
         recortar.setPreferredSize(new Dimension(90, 60));
         compilar.setPreferredSize(new Dimension(90, 60));
         equipe.setPreferredSize(new Dimension(90, 60));
-        
+
         //Método já criando a instância da classe que adiciona linhas no editor;
         Editor.setBorder(new NumberedBorder());
-        
+
         //Mantém barras de rolagem do editor sempre ligadas (horizontais e verticais)
         BarraRolagemEditor.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         BarraRolagemEditor.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        
+
         BarraRolagemTexto.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         BarraRolagemTexto.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        
+
         //Inicializando o divisor menor em baixo
         SplitPane.setDividerLocation(0.8);
-        
+
         //Proíbe a barra de ferramentas ficar floatable
         BarraFerramentas.setFloatable(false);
-        
+
         configurarAtalhos();
-        
+
     }//contrutor Interface
-    
+
     //Atalhos dos botões serão alocados aqui dentro
     private void configurarAtalhos() {
-    //Atalho "novo"
-    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(javax.swing.KeyStroke.getKeyStroke("control N"), "acaoNovo");
-    
-    getRootPane().getActionMap().put("acaoNovo", new javax.swing.AbstractAction() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent e) {
-            novo.doClick();
-        }
-    });
-    
-    // Abrir
-    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(javax.swing.KeyStroke.getKeyStroke("control O"), "acaoAbrir");
-    
-    getRootPane().getActionMap().put("acaoAbrir", new javax.swing.AbstractAction() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent e) {
-            abrir.doClick();
-        }
-    });
-    
-    
-    // Salvar
-    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(javax.swing.KeyStroke.getKeyStroke("control S"), "acaoSalvar");
-    
-    getRootPane().getActionMap().put("acaoSalvar", new javax.swing.AbstractAction() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent e) {
-            salvar.doClick();
-        }
-    });
-    
-    // Copiar
-    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(javax.swing.KeyStroke.getKeyStroke("control C"), "acaoCopiar");
-    
-    getRootPane().getActionMap().put("acaoCopiar", new javax.swing.AbstractAction() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent e) {
-            copiar.doClick();
-        }
-    });
-   
-    // Colar
-    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(javax.swing.KeyStroke.getKeyStroke("control V"), "acaoColar");
-    
-    getRootPane().getActionMap().put("acaoColar", new javax.swing.AbstractAction() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent e) {
-            colar.doClick();
-        }
-    });
-    
-    // Recortar
-    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(javax.swing.KeyStroke.getKeyStroke("control X"), "acaoRecortar");
-    
-    getRootPane().getActionMap().put("acaoRecortar", new javax.swing.AbstractAction() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent e) {
-            recortar.doClick();
-        }
-    });
-    
-    // Compilar
-    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(javax.swing.KeyStroke.getKeyStroke("F7"), "acaoCompilar");
-    
-    getRootPane().getActionMap().put("acaoCompilar", new javax.swing.AbstractAction() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent e) {
-            compilar.doClick();
-        }
-    });
-    
-    // Equipe
-    getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(javax.swing.KeyStroke.getKeyStroke("F1"), "acaoEquipe");
-    
-    getRootPane().getActionMap().put("acaoEquipe", new javax.swing.AbstractAction() {
-        @Override
-        public void actionPerformed(java.awt.event.ActionEvent e) {
-            equipe.doClick();
-        }
-    });
-    
+        //Atalho "novo"
+        getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke("control N"), "acaoNovo");
+
+        getRootPane().getActionMap().put("acaoNovo", new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                novo.doClick();
+            }
+        });
+
+        // Abrir
+        getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke("control O"), "acaoAbrir");
+
+        getRootPane().getActionMap().put("acaoAbrir", new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                abrir.doClick();
+            }
+        });
+
+        // Salvar
+        getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke("control S"), "acaoSalvar");
+
+        getRootPane().getActionMap().put("acaoSalvar", new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                salvar.doClick();
+            }
+        });
+
+        // Copiar
+        getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke("control C"), "acaoCopiar");
+
+        getRootPane().getActionMap().put("acaoCopiar", new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                copiar.doClick();
+            }
+        });
+
+        // Colar
+        getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke("control V"), "acaoColar");
+
+        getRootPane().getActionMap().put("acaoColar", new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                colar.doClick();
+            }
+        });
+
+        // Recortar
+        getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke("control X"), "acaoRecortar");
+
+        getRootPane().getActionMap().put("acaoRecortar", new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                recortar.doClick();
+            }
+        });
+
+        // Compilar
+        getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke("F7"), "acaoCompilar");
+
+        getRootPane().getActionMap().put("acaoCompilar", new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                compilar.doClick();
+            }
+        });
+
+        // Equipe
+        getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(javax.swing.KeyStroke.getKeyStroke("F1"), "acaoEquipe");
+
+        getRootPane().getActionMap().put("acaoEquipe", new javax.swing.AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                equipe.doClick();
+            }
+        });
+
     }//fim metodo atalhos
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -200,6 +199,11 @@ public class Interface extends javax.swing.JFrame {
         abrir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         abrir.setMaximumSize(new java.awt.Dimension(92, 58));
         abrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        abrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirActionPerformed(evt);
+            }
+        });
         BarraFerramentas.add(abrir);
 
         salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/IconSalvar30x30.png"))); // NOI18N
@@ -342,7 +346,44 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
-        // TODO add your handling code here:
+        try {
+            Arquivo gerenciador = new Arquivo();
+
+            // Se já existe um caminho, salva direto (Sobrescreve)
+            if (caminhoArquivoAtual != null) {
+                gerenciador.salvar(caminhoArquivoAtual, Editor.getText());
+                Texto.setText(""); // Limpa área de mensagens
+                Status.setText("Arquivo: " + caminhoArquivoAtual);
+            } // Se o caminho é nulo, é um arquivo novo (Salvar Como)
+            else {
+                javax.swing.JFileChooser seletor = new javax.swing.JFileChooser();
+                javax.swing.filechooser.FileNameExtensionFilter filtro
+                        = new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (.txt)", "txt");
+                seletor.setFileFilter(filtro);
+                seletor.setAcceptAllFileFilterUsed(false);
+
+                int resposta = seletor.showSaveDialog(this);
+
+                if (resposta == javax.swing.JFileChooser.APPROVE_OPTION) {
+                    java.io.File arquivo = seletor.getSelectedFile();
+                    String caminho = arquivo.getAbsolutePath();
+
+                    // Força a extensão .txt se o usuário não digitar
+                    if (!caminho.toLowerCase().endsWith(".txt")) {
+                        caminho += ".txt";
+                    }
+
+                    gerenciador.salvar(caminho, Editor.getText());
+
+                    // Atualiza o estado global e a interface
+                    caminhoArquivoAtual = caminho;
+                    Texto.setText("");
+                    Status.setText("Arquivo: " + caminho);
+                }
+            }
+        } catch (java.io.IOException ex) {
+            Texto.setText("Erro ao salvar o arquivo: " + ex.getMessage());
+        }
     }//GEN-LAST:event_salvarActionPerformed
 
     private void copiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copiarActionPerformed
@@ -358,12 +399,12 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_recortarActionPerformed
 
     private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
-        Editor.setText("");
+        Texto.setText("");
         Texto.setText("compilação de programas ainda não foi implementada");
     }//GEN-LAST:event_compilarActionPerformed
 
     private void equipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipeActionPerformed
-        Editor.setText("");
+        Texto.setText("");
         Texto.setText("Eugênio V. Erbs \nTiago Segatti\nYasmim");
     }//GEN-LAST:event_equipeActionPerformed
 
@@ -372,6 +413,34 @@ public class Interface extends javax.swing.JFrame {
         Texto.setText("");
         Status.setText("");
     }//GEN-LAST:event_novoActionPerformed
+
+    private void abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirActionPerformed
+        javax.swing.JFileChooser seletor = new javax.swing.JFileChooser();
+        javax.swing.filechooser.FileNameExtensionFilter filtro = new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (.txt)", "txt");
+        seletor.setFileFilter(filtro);
+        seletor.setAcceptAllFileFilterUsed(false);
+
+        int resposta = seletor.showOpenDialog(this);
+
+        if (resposta == javax.swing.JFileChooser.APPROVE_OPTION) {
+            Texto.setText("");
+            java.io.File arquivoSelecionado = seletor.getSelectedFile();
+            String caminho = arquivoSelecionado.getAbsolutePath();
+
+            try {
+                Arquivo gerenciador = new Arquivo();
+                String conteudoLido = gerenciador.ler(caminho);
+
+                Editor.setText(conteudoLido);
+                Status.setText("Arquivo: " + caminho);
+
+                caminhoArquivoAtual = caminho;
+
+            } catch (Exception ex) {
+                Texto.setText("Erro ao abrir o arquivo: " + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_abrirActionPerformed
 
     /**
      * @param args the command line arguments
