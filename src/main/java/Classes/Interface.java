@@ -5,7 +5,10 @@
 package Classes;
 
 import java.awt.Dimension;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -353,7 +356,7 @@ public class Interface extends javax.swing.JFrame {
             if (caminhoArquivoAtual != null) {
                 gerenciador.salvar(caminhoArquivoAtual, Editor.getText());
                 Texto.setText(""); // Limpa área de mensagens
-                Status.setText("Arquivo: " + caminhoArquivoAtual);
+                Status.setText(caminhoArquivoAtual);
             } // Se o caminho é nulo, é um arquivo novo (Salvar Como)
             else {
                 javax.swing.JFileChooser seletor = new javax.swing.JFileChooser();
@@ -378,7 +381,7 @@ public class Interface extends javax.swing.JFrame {
                     // Atualiza o estado global e a interface
                     caminhoArquivoAtual = caminho;
                     Texto.setText("");
-                    Status.setText("Arquivo: " + caminho);
+                    Status.setText(caminho);
                 }
             }
         } catch (java.io.IOException ex) {
@@ -409,22 +412,31 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_equipeActionPerformed
 
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
-        Editor.setText("");
         Texto.setText("");
+        Editor.setText("");
         Status.setText("");
+
+
     }//GEN-LAST:event_novoActionPerformed
 
     private void abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirActionPerformed
-        javax.swing.JFileChooser seletor = new javax.swing.JFileChooser();
-        javax.swing.filechooser.FileNameExtensionFilter filtro = new javax.swing.filechooser.FileNameExtensionFilter("Arquivos de Texto (.txt)", "txt");
+        JFileChooser seletor = new JFileChooser();
+        //cria o filtro de extensão de arquivos que vão aparecerer na tela
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Arquivos de Texto (.txt)", "txt");
+        //seta o filtro no seletor
         seletor.setFileFilter(filtro);
+        //não permitir que o java libere todos os arquivos, somente o filtro acima
         seletor.setAcceptAllFileFilterUsed(false);
 
+        //cria a tela de conversa com o explorador de arquivos
         int resposta = seletor.showOpenDialog(this);
 
-        if (resposta == javax.swing.JFileChooser.APPROVE_OPTION) {
+        //se for 
+        if (resposta == JFileChooser.APPROVE_OPTION) {
             Texto.setText("");
-            java.io.File arquivoSelecionado = seletor.getSelectedFile();
+            //pega arquivo selecionado na tela
+            File arquivoSelecionado = seletor.getSelectedFile();
+            //pega o caminho do arquivo selecionado
             String caminho = arquivoSelecionado.getAbsolutePath();
 
             try {
@@ -432,7 +444,7 @@ public class Interface extends javax.swing.JFrame {
                 String conteudoLido = gerenciador.ler(caminho);
 
                 Editor.setText(conteudoLido);
-                Status.setText("Arquivo: " + caminho);
+                Status.setText(caminho);
 
                 caminhoArquivoAtual = caminho;
 
