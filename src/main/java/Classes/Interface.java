@@ -408,7 +408,7 @@ public class Interface extends javax.swing.JFrame {
 
     private void equipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipeActionPerformed
         Texto.setText("");
-        Texto.setText("Eugênio V. Erbs \nTiago Segatti\nYasmim");
+        Texto.setText("Eugênio Victor Erbs \nTiago Segatti\nYasmin Darlen Schneider");
     }//GEN-LAST:event_equipeActionPerformed
 
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
