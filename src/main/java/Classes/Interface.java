@@ -415,7 +415,9 @@ public class Interface extends javax.swing.JFrame {
         Texto.setText("");
         Editor.setText("");
         Status.setText("");
-
+        
+        //resetando o caminho para não conflitar com o próximo arquivo que será abert0
+        caminhoArquivoAtual = null;
 
     }//GEN-LAST:event_novoActionPerformed
 
