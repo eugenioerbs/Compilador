@@ -37,7 +37,7 @@ ctestring:! \"([^\n\"\\%]*(%x)?)*\"
 :! {comentariodebloco}
 
 //caracteres de formatação: reconhecer e ignorar
-:[\n\s\t]
+:[\n\r\s\t]
 
 //palavras reservadas: enunciado parte 2 - ask bool char define end elif else false float if int main repeat string tell true until while
 pr_ask = identificador: "ask"

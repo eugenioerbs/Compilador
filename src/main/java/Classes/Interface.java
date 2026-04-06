@@ -400,7 +400,7 @@ public class Interface extends javax.swing.JFrame {
         try {
             Arquivo gerenciador = new Arquivo();
 
-            // Se já existe um caminho, salva direto (Sobrescreve)
+            // se já existe um caminho, salva direto (Sobrescreve)
             if (caminhoArquivoAtual != null) {
                 gerenciador.salvar(caminhoArquivoAtual, Editor.getText());
                 Texto.setText(""); // Limpa área de mensagens
@@ -453,44 +453,40 @@ public class Interface extends javax.swing.JFrame {
         Texto.setText("");
 
         try {
-            // pegamos o texto e forçamos todas as quebras de linha para \n
-            // isso evita que o \r (comum no Windows) seja tratado como símbolo inválido
-            String codigo = Editor.getText().replace("\r\n", "\n").replace("\r", "\n");
+        String codigo = Editor.getText();
 
-            if (codigo.trim().isEmpty()) {
-                Texto.setText("Nenhum código para compilar");
-                return;
-            }
-
-            Lexico lexico = new Lexico(codigo);
-            Token t = null;
-            StringBuilder relatorio = new StringBuilder();
-
-            relatorio.append("linha\tclasse\t\tlexema\n");
-
-            while ((t = lexico.nextToken()) != null) {
-                // ssamos a posição do token no texto já normalizado
-                int linha = getLineOfset(t.getPosition());
-                String classe = getNomeClasse(t.getId());
-                String lexema = t.getLexeme();
-
-                relatorio.append(linha).append("\t")
-                        .append(classe).append("\t\t")
-                        .append(lexema).append("\n");
-            }
-
-            Texto.setText(relatorio.toString());
-            Texto.append("\nprograma compilado com sucesso");
-
-        } catch (LexicalError e) {
-            // aqui garantimos que a posição do erro também seja mapeada corretamente
-            int linha = getLineOfset(e.getPosition());
-            Texto.setText("Erro na linha " + linha + " - " + e.getMessage());
-
-        } catch (Exception e) {
-            Texto.setText("Erro desconhecido: " + e.getMessage());
-            e.printStackTrace(); // ajuda a debugar no console se algo grave ocorrer
+        if (codigo.trim().isEmpty()) {
+            Texto.setText("Nenhum código para compilar");
+            return;
         }
+
+        Lexico lexico = new Lexico(codigo);
+        Token t = null;
+        StringBuilder relatorio = new StringBuilder();
+
+        relatorio.append("linha\tclasse\t\tlexema\n");
+
+        while ((t = lexico.nextToken()) != null) {
+            int linha = getLineOfset(t.getPosition());
+            String classe = getNomeClasse(t.getId());
+            String lexema = t.getLexeme();
+
+            relatorio.append(linha).append("\t")
+                    .append(classe).append("\t\t")
+                    .append(lexema).append("\n");
+        }
+
+        Texto.setText(relatorio.toString());
+        Texto.append("\nprograma compilado com sucesso");
+
+    } catch (LexicalError e) {
+        int linha = getLineOfset(e.getPosition());
+        Texto.setText("Erro na linha " + linha + " - " + e.getMessage());
+
+    } catch (Exception e) {
+        Texto.setText("Erro desconhecido: " + e.getMessage());
+        e.printStackTrace();
+    }
 
     }//GEN-LAST:event_compilarActionPerformed
 
