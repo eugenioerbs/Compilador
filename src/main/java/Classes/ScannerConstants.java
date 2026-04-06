@@ -1,3 +1,6 @@
+package Classes;
+
+
 public interface ScannerConstants
 {
     int[] SCANNER_TABLE_INDEXES = 
@@ -1005,15 +1008,12 @@ public interface ScannerConstants
 
     String[] SCANNER_ERROR =
     {
-        "Caractere não esperado",
+        "simbolo inválido", //"Caractere não esperado",
         "",
         "",
-        "Erro identificando ctestring",
+        "simbolo inválido", //"Erro identificando ctestring",
         "",
-        "Erro identificando \"&&\"",
-        "",
-        "",
-        "",
+        "símbolo inválido", //"Erro identificando \"&&\"",
         "",
         "",
         "",
@@ -1024,27 +1024,30 @@ public interface ScannerConstants
         "",
         "",
         "",
-        "Erro identificando ctechar",
-        "",
-        "",
-        "Erro identificando <ignorar>",
-        "Erro identificando \"||\"",
-        "",
-        "",
-        "Erro identificando ctestring",
-        "",
-        "Erro identificando ctefloat",
         "",
         "",
         "",
+        "constante_char inválida", //"Erro identificando ctechar",
         "",
         "",
-        "Erro identificando identificador",
-        "Erro identificando <ignorar>",
+        "comentário inválido ou não finalizado", //"Erro identificando <ignorar>",
+        "símbolo inválido", //"Erro identificando \"||\"",
+        "",
+        "",
+        "constante_string inválida", //"Erro identificando ctestring",
+        "",
+        "constante_float inválida", //"Erro identificando ctefloat",
         "",
         "",
         "",
-        "Erro identificando <ignorar>",
+        "",
+        "",
+        "identificador inválido", //"Erro identificando identificador",
+        "comentário inválido ou não finalizado", //"Erro identificando <ignorar>",
+        "",
+        "",
+        "",
+        "comentário inválido ou não finalizado", //"Erro identificando <ignorar>",
         ""
     };
 

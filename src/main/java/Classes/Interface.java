@@ -9,6 +9,8 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
 
 /**
  *
@@ -149,7 +151,53 @@ public class Interface extends javax.swing.JFrame {
         });
 
     }//fim metodo atalhos
+    
+    
+    private int getLineOfset(int offset) {
+        try {
+            // Importante: use o Document do Editor diretamente
+            Document doc = Editor.getDocument();
+            Element root = doc.getDefaultRootElement();
 
+            if (offset < 0) {
+                return 1;
+            }
+            if (offset > doc.getLength()) {
+                offset = doc.getLength();
+            }
+
+            // O getElementIndex retorna 0 para a primeira linha, por isso o +1
+            return root.getElementIndex(offset) + 1;
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+
+    
+    // método para ter o nome das classes dos tolens
+    private String getNomeClasse(int id) {
+        // verificar se é uma das palavras reservadas (IDs 7 a 24)
+        if (id >= 7 && id <= 24) {
+            return "palavra reservada";
+        }
+        //verificar classes específicas via Constants
+        return switch (id) {
+            case Constants.t_identificador ->
+                "identificador";
+            case Constants.t_cteint ->
+                "constante_int";
+            case Constants.t_ctefloat ->
+                "constante_float";
+            case Constants.t_ctechar ->
+                "constante_char";
+            case Constants.t_ctestring ->
+                "constante_string";
+            default ->
+                "símbolo especial";
+        }; // Se não caiu em nenhum acima, é um símbolo (ex: +, -, ;, (, etc)
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -403,7 +451,47 @@ public class Interface extends javax.swing.JFrame {
 
     private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
         Texto.setText("");
-        Texto.setText("compilação de programas ainda não foi implementada");
+
+        try {
+            // pegamos o texto e forçamos todas as quebras de linha para \n
+            // isso evita que o \r (comum no Windows) seja tratado como símbolo inválido
+            String codigo = Editor.getText().replace("\r\n", "\n").replace("\r", "\n");
+
+            if (codigo.trim().isEmpty()) {
+                Texto.setText("Nenhum código para compilar");
+                return;
+            }
+
+            Lexico lexico = new Lexico(codigo);
+            Token t = null;
+            StringBuilder relatorio = new StringBuilder();
+
+            relatorio.append("linha\tclasse\t\tlexema\n");
+
+            while ((t = lexico.nextToken()) != null) {
+                // ssamos a posição do token no texto já normalizado
+                int linha = getLineOfset(t.getPosition());
+                String classe = getNomeClasse(t.getId());
+                String lexema = t.getLexeme();
+
+                relatorio.append(linha).append("\t")
+                        .append(classe).append("\t\t")
+                        .append(lexema).append("\n");
+            }
+
+            Texto.setText(relatorio.toString());
+            Texto.append("\nprograma compilado com sucesso");
+
+        } catch (LexicalError e) {
+            // aqui garantimos que a posição do erro também seja mapeada corretamente
+            int linha = getLineOfset(e.getPosition());
+            Texto.setText("Erro na linha " + linha + " - " + e.getMessage());
+
+        } catch (Exception e) {
+            Texto.setText("Erro desconhecido: " + e.getMessage());
+            e.printStackTrace(); // ajuda a debugar no console se algo grave ocorrer
+        }
+
     }//GEN-LAST:event_compilarActionPerformed
 
     private void equipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equipeActionPerformed
@@ -415,7 +503,7 @@ public class Interface extends javax.swing.JFrame {
         Texto.setText("");
         Editor.setText("");
         Status.setText("");
-        
+
         //resetando o caminho para não conflitar com o próximo arquivo que será abert0
         caminhoArquivoAtual = null;
 
