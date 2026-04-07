@@ -155,10 +155,11 @@ public class Interface extends javax.swing.JFrame {
     
     private int getLineOfset(int offset) {
         try {
-            // Importante: use o Document do Editor diretamente
+            
             Document doc = Editor.getDocument();
             Element root = doc.getDefaultRootElement();
 
+            //em caso de erros, esses dois ifs retornarão valores corretos
             if (offset < 0) {
                 return 1;
             }
@@ -166,21 +167,22 @@ public class Interface extends javax.swing.JFrame {
                 offset = doc.getLength();
             }
 
-            // O getElementIndex retorna 0 para a primeira linha, por isso o +1
+            //getElementIndex inicia do 0, por isso o +1
             return root.getElementIndex(offset) + 1;
+            
         } catch (Exception e) {
             return 1;
         }
     }
 
     
-    // método para ter o nome das classes dos tolens
+    // pega o id do token e traduz o nome da classe dele, retornando por extenso
     private String getNomeClasse(int id) {
-        // verificar se é uma das palavras reservadas (IDs 7 a 24)
+        
         if (id >= 7 && id <= 24) {
             return "palavra reservada";
         }
-        //verificar classes específicas via Constants
+        
         return switch (id) {
             case Constants.t_identificador ->
                 "identificador";
@@ -193,8 +195,8 @@ public class Interface extends javax.swing.JFrame {
             case Constants.t_ctestring ->
                 "constante_string";
             default ->
-                "símbolo especial";
-        }; // Se não caiu em nenhum acima, é um símbolo (ex: +, -, ;, (, etc)
+                "símbolo especial"; // Se não caiu em nenhum acima, é um símbolo (ex: +, -, ;, (, etc)
+        };
     }
     
     
