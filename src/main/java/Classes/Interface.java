@@ -151,11 +151,10 @@ public class Interface extends javax.swing.JFrame {
         });
 
     }//fim metodo atalhos
-    
-    
+
     private int getLineOfset(int offset) {
         try {
-            
+
             Document doc = Editor.getDocument();
             Element root = doc.getDefaultRootElement();
 
@@ -169,20 +168,19 @@ public class Interface extends javax.swing.JFrame {
 
             //getElementIndex inicia do 0, por isso o +1
             return root.getElementIndex(offset) + 1;
-            
+
         } catch (Exception e) {
             return 1;
         }
     }
 
-    
     // pega o id do token e traduz o nome da classe dele, retornando por extenso
     private String getNomeClasse(int id) {
-        
+
         if (id >= 7 && id <= 24) {
             return "palavra reservada";
         }
-        
+
         return switch (id) {
             case Constants.t_identificador ->
                 "identificador";
@@ -198,8 +196,7 @@ public class Interface extends javax.swing.JFrame {
                 "símbolo especial"; // Se não caiu em nenhum acima, é um símbolo (ex: +, -, ;, (, etc)
         };
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -455,40 +452,50 @@ public class Interface extends javax.swing.JFrame {
         Texto.setText("");
 
         try {
-        String codigo = Editor.getText();
+            String codigo = Editor.getText();
 
-        if (codigo.trim().isEmpty()) {
-            Texto.setText("Nenhum código para compilar");
-            return;
+            if (codigo.trim().isEmpty()) {
+                Texto.setText("Nenhum código para compilar");
+                return;
+            }
+
+            Lexico lexico = new Lexico(codigo);
+            Token t = null;
+            StringBuilder relatorio = new StringBuilder();
+
+            relatorio.append("linha\tclasse\t\tlexema\n");
+
+            while ((t = lexico.nextToken()) != null) {
+                int linha = getLineOfset(t.getPosition());
+                String classe = getNomeClasse(t.getId());
+                String lexema = t.getLexeme();
+
+                relatorio.append(linha).append("\t").append(classe).append("\t\t").append(lexema).append("\n");
+            }
+
+            Texto.setText(relatorio.toString());
+            Texto.append("\nprograma compilado com sucesso");
+
+        } catch (LexicalError e) {
+            int linha = getLineOfset(e.getPosition());
+
+            //pegando o texto completo do editor
+            String codigo = Editor.getText();
+            //criando uma variável pra armazenar o digito/simbolo inválido/não reconhecido pelo GALS
+            String simboloInvalido = "";
+
+            //verificando se a posição está dentro dos limites do texto (precaução)
+            if (e.getPosition() >= 0 && e.getPosition() < codigo.length()) {
+                //capturando o símbolo via valueOf e atribuindo a nossa variável
+                simboloInvalido = String.valueOf(codigo.charAt(e.getPosition()));
+                
+            }
+            Texto.setText("Erro na linha " + linha + " - " + e.getMessage() + ": " + simboloInvalido);
+
+        } catch (Exception e) {
+            Texto.setText("Erro desconhecido: " + e.getMessage());
+            e.printStackTrace();
         }
-
-        Lexico lexico = new Lexico(codigo);
-        Token t = null;
-        StringBuilder relatorio = new StringBuilder();
-
-        relatorio.append("linha\tclasse\t\tlexema\n");
-
-        while ((t = lexico.nextToken()) != null) {
-            int linha = getLineOfset(t.getPosition());
-            String classe = getNomeClasse(t.getId());
-            String lexema = t.getLexeme();
-
-            relatorio.append(linha).append("\t")
-                    .append(classe).append("\t\t")
-                    .append(lexema).append("\n");
-        }
-
-        Texto.setText(relatorio.toString());
-        Texto.append("\nprograma compilado com sucesso");
-
-    } catch (LexicalError e) {
-        int linha = getLineOfset(e.getPosition());
-        Texto.setText("Erro na linha " + linha + " - " + e.getMessage());
-
-    } catch (Exception e) {
-        Texto.setText("Erro desconhecido: " + e.getMessage());
-        e.printStackTrace();
-    }
 
     }//GEN-LAST:event_compilarActionPerformed
 

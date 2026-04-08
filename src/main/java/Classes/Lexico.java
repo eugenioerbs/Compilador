@@ -1,17 +1,14 @@
 package Classes;
 
-public class Lexico implements Constants
-{
+public class Lexico implements Constants {
     private int position;
     private String input;
 
-    public Lexico()
-    {
+    public Lexico() {
         this("");
     }
 
-    public Lexico(String input)
-    {
+    public Lexico(String input) {
         setInput(input);
     }
 
