@@ -1,0 +1,8 @@
+*.class
+
+build/
+nbbuild/
+nbdist/
+
+nbproject/private/
+/target/

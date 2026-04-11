@@ -1,0 +1,84 @@
+#Options
+GenerateScanner = true
+GenerateParser = false
+Language = Java
+ScannerName = Lexico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = String
+#RegularDefinitions
+dig: [0-9]
+min: [a-z]
+mai: [A-Z]
+
+inteiro: {dig}+
+fracao:\.{dig}+
+
+
+//linha
+comentariodelinha: #[^\n]*
+
+//bloco
+comentariodebloco: \{\n[^\{\}]*\n\}
+#Tokens
+//identificador
+identificador:! {min}({min}+|_{dig} {dig}*)*
+
+cteint:! {inteiro}
+
+ctefloat:! {inteiro} {fracao}
+
+ctechar:! \\(n|s|t)
+
+ctestring:! \"([^\n\"\\%]*(%x)?)*\"
+
+//comentarios: reconhecer e ignorar
+:! {comentariodelinha}
+:! {comentariodebloco}
+
+//caracteres de formatação: reconhecer e ignorar
+:[\n\s\t]
+
+//palavras reservadas: enunciado parte 2 - ask bool char define end elif else false float if int main repeat string tell true until while
+pr_ask = identificador: "ask"
+pr_bool = identificador: "bool"
+pr_char = identificador: "char"
+pr_define = identificador: "define"
+pr_end = identificador: "end"
+pr_elif = identificador:"elif"
+pr_else = identificador:"else"
+pr_false = identificador:"false"
+pr_float = identificador:"float"
+pr_if = identificador:"if"
+pr_int = identificador:"int"
+pr_main = identificador:"main"
+pr_repeat = identificador:"repeat"
+pr_string = identificador:"string"
+pr_tell = identificador:"tell"
+pr_true = identificador:"true"
+pr_until = identificador:"until"
+pr_while = identificador:"while"
+
+// simbolos especiais: enunciado parte 2 - : ; , = <- ( ) && || ! == != < <= > >= + - * / ^
+"&&"
+"||"
+"!"
+":"
+";"
+","
+"="
+"<-"
+"("
+")"
+"=="
+"!="
+"<"
+"<="
+">"
+">="
+"+"
+"-"
+"*"
+"/"
+"^"
+
