@@ -463,59 +463,52 @@ public class Interface extends javax.swing.JFrame {
     private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
     	Texto.setText("");
 
-        try {
-            String codigo = Editor.getText();
-            
-            // Verifica se o usuário não digitou nada (evita processar vazio)
-            if (codigo.trim().isEmpty()) {
-                Texto.setText("Nenhum código para compilar");
-                return;
-            }
-            
-            // Cria o analisador léxico passando o código fonte
-            Lexico lexico = new Lexico(codigo);
-            Token t = null;
-            StringBuilder relatorio = new StringBuilder();
+		try {
+			String codigo = Editor.getText();
 
-            relatorio.append("linha\tclasse\t\tlexema\n");
+			// Verifica se o usuário não digitou nada (evita processar vazio)
+			if (codigo.trim().isEmpty()) {
+				Texto.setText("Nenhum código para compilar");
+				return;
+			}
 
-            while ((t = lexico.nextToken()) != null) {
-                int linha = calcularLinha(codigo, t.getPosition());
-                String classe = getNomeClasse(t.getId());
-                String lexema = t.getLexeme();
+			// Cria o analisador léxico passando o código fonte
+			Lexico lexico = new Lexico(codigo);
+			Token t = null;
+			StringBuilder relatorio = new StringBuilder();
 
-                relatorio.append(linha)
-                        .append("\t")
-                        .append(classe)
-                        .append("\t\t")
-                        .append(lexema)
-                        .append("\n");
-            }
+			relatorio.append("linha\tclasse\t\tlexema\n");
 
-            Texto.setText(relatorio.toString());
-            Texto.append("\nprograma compilado com sucesso");
+			while ((t = lexico.nextToken()) != null) {
+				int linha = calcularLinha(codigo, t.getPosition());
+				String classe = getNomeClasse(t.getId());
+				String lexema = t.getLexeme();
 
-        } catch (LexicalError e) {
-            String codigo = Editor.getText();
-            
-            // Converte a posição do erro para linha
-            int linha = calcularLinha(codigo, e.getPosition()); // 🔥 CORRETO
-            String simboloInvalido = "";
-            
-            // Verifica se a posição do erro é válida dentro do texto
-            if (e.getPosition() >= 0 && e.getPosition() < codigo.length()) {
-                simboloInvalido = String.valueOf(codigo.charAt(e.getPosition()));
-            }
+				relatorio.append(linha).append("\t").append(classe).append("\t\t").append(lexema).append("\n");
+			}
 
-            Texto.setText("Erro na linha " + linha
-                    + " - " + e.getMessage()
-                    + ": " + simboloInvalido);
+			Texto.setText(relatorio.toString());
+			Texto.append("\nprograma compilado com sucesso");
 
-        } catch (Exception e) {
-        	// Captura qualquer outro erro inesperado
-            Texto.setText("Erro desconhecido: " + e.getMessage());
-            e.printStackTrace();
-        }
+		} catch (LexicalError e) {
+			String codigo = Editor.getText();
+
+			// Converte a posição do erro para linha
+			int linha = calcularLinha(codigo, e.getPosition());
+			String simboloInvalido = "";
+
+			// Verifica se a posição do erro é válida dentro do texto
+			if (e.getPosition() >= 0 && e.getPosition() < codigo.length()) {
+				simboloInvalido = String.valueOf(codigo.charAt(e.getPosition()));
+			}
+
+			Texto.setText("Erro na linha " + linha + " - " + e.getMessage() + ": " + simboloInvalido);
+
+		} catch (Exception e) {
+			// Captura qualquer outro erro inesperado
+			Texto.setText("Erro desconhecido: " + e.getMessage());
+			e.printStackTrace();
+		}
 
     }//GEN-LAST:event_compilarActionPerformed
 
