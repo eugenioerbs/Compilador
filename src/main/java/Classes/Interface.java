@@ -59,6 +59,29 @@ public class Interface extends javax.swing.JFrame {
         configurarAtalhos();
 
     }//contrutor Interface
+    
+    private String extrairLexemaNaPosicao(String texto, int posicao) {
+    if (posicao < 0 || posicao >= texto.length()) return "fim de arquivo";
+    
+    // Se for um caractere especial (não letra/dígito), retorna ele mesmo
+    char atual = texto.charAt(posicao);
+    if (!Character.isLetterOrDigit(atual) && !Character.isWhitespace(atual)) {
+        return String.valueOf(atual);
+    }
+    
+    // Se for parte de um identificador ou palavra, expande até o fim do lexema
+    StringBuilder sb = new StringBuilder();
+    int i = posicao;
+    while (i < texto.length() && !Character.isWhitespace(texto.charAt(i)) 
+           && (Character.isLetterOrDigit(texto.charAt(i)) || texto.charAt(i) == '_')) {
+        sb.append(texto.charAt(i));
+        i++;
+    }
+    
+    String res = sb.toString();
+    return res.isEmpty() ? "espaço/quebra de linha" : res;
+    
+    }
 
     //Atalhos dos botões serão alocados aqui dentro
     private void configurarAtalhos() {
@@ -461,54 +484,68 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_recortarActionPerformed
 
     private void compilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilarActionPerformed
-    	Texto.setText("");
 
-		try {
-			String codigo = Editor.getText();
+        Texto.setText("");
+    
+        String codigo = Editor.getText();
 
-			// Verifica se o usuário não digitou nada (evita processar vazio)
-			if (codigo.trim().isEmpty()) {
-				Texto.setText("Nenhum código para compilar");
-				return;
-			}
+        
+        if (codigo.trim().isEmpty()) {
+            Texto.setText("Nenhum código para compilar");
+            return;
+        }
 
-			// Cria o analisador léxico passando o código fonte
-			Lexico lexico = new Lexico(codigo);
-			Token t = null;
-			StringBuilder relatorio = new StringBuilder();
+        
+        Lexico lexico = new Lexico();
+        Sintatico sintatico = new Sintatico();
+        Semantico semantico = new Semantico();
 
-			relatorio.append("linha\tclasse\t\tlexema\n");
+    
+        lexico.setInput(codigo);
 
-			while ((t = lexico.nextToken()) != null) {
-				int linha = calcularLinha(codigo, t.getPosition());
-				String classe = getNomeClasse(t.getId());
-				String lexema = t.getLexeme();
+        try {
+        //Chamada do analisador sintático (Tradução dirigida pela sintaxe)
+        sintatico.parse(lexico, semantico);
 
-				relatorio.append(linha).append("\t").append(classe).append("\t\t").append(lexema).append("\n");
-			}
+        //Se chegou aqui sem cair nos catchs, o programa está correto
+        Texto.setText("programa compilado com sucesso");
 
-			Texto.setText(relatorio.toString());
-			Texto.append("\nprograma compilado com sucesso");
+        } catch (LexicalError e) {
+        int linha = calcularLinha(codigo, e.getPosition());
+        String simbolo = "";
+        if (e.getPosition() >= 0 && e.getPosition() < codigo.length()) {
+            simbolo = String.valueOf(codigo.charAt(e.getPosition()));
+        }
+        
+        Texto.setText("Erro na linha " + linha + " - " + e.getMessage() + (simbolo.isEmpty() ? "" : ": " + simbolo));
 
-		} catch (LexicalError e) {
-			String codigo = Editor.getText();
+        } catch (SyntaticError e) {
+        int linha = calcularLinha(codigo, e.getPosition());
+        
+        /* 
+         * Requisito Primordial: Capturar o Lexema
+         * Como o erro sintático ocorre em cima de um Token, 
+         * tentamos recuperar o que o léxico identificou por último.
+         */
+        String lexemaEncontrado = "";
+        
+        // Se a posição for o fim do arquivo
+        if (e.getPosition() >= codigo.length()) {
+            lexemaEncontrado = "EOF";
+        } else {
+            // Buscamos o lexema a partir da posição do erro no código fonte
+            // Uma forma robusta é ler do offset do erro até o próximo delimitador
+            // Ou usar o próprio método do seu analisador se ele guardar o 'lastToken'
+            lexemaEncontrado = extrairLexemaNaPosicao(codigo, e.getPosition());
+        }
 
-			// Converte a posição do erro para linha
-			int linha = calcularLinha(codigo, e.getPosition());
-			String simboloInvalido = "";
+        Texto.setText("Erro na linha " + linha + " - encontrado " + lexemaEncontrado + " " + e.getMessage());
 
-			// Verifica se a posição do erro é válida dentro do texto
-			if (e.getPosition() >= 0 && e.getPosition() < codigo.length()) {
-				simboloInvalido = String.valueOf(codigo.charAt(e.getPosition()));
-			}
-
-			Texto.setText("Erro na linha " + linha + " - " + e.getMessage() + ": " + simboloInvalido);
-
-		} catch (Exception e) {
-			// Captura qualquer outro erro inesperado
-			Texto.setText("Erro desconhecido: " + e.getMessage());
-			e.printStackTrace();
-		}
+        } catch (SemanticError e) {
+        // Trata erros semânticos (Parte 4 do projeto)
+        int linha = calcularLinha(codigo, e.getPosition());
+        Texto.setText("Erro na linha " + linha + " - Erro Semântico: " + e.getMessage());
+    }
 
     }//GEN-LAST:event_compilarActionPerformed
 
