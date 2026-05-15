@@ -1,0 +1,206 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = String
+Parser = LL
+#RegularDefinitions
+dig: [0-9]
+min: [a-z]
+mai: [A-Z]
+
+inteiro: {dig}+
+fracao:\.{dig}+
+
+
+//linha
+comentariodelinha: #[^\n\r]*
+
+//bloco
+comentariodebloco: \{\r?\n[^\{\}]*\r?\n\}
+
+#Tokens
+//identificador
+identificador:! {min}({min}+|_{dig} {dig}*)*
+
+cteint:! {inteiro}
+
+ctefloat:! {inteiro} {fracao}
+
+ctechar:! \\(n|s|t)
+
+ctestring:! \"([^\n\r\"\\%]*(%x)?)*\"
+
+//comentarios: reconhecer e ignorar
+:! {comentariodelinha}
+:! {comentariodebloco}
+
+//caracteres de formatação: reconhecer e ignorar
+:[\n\r\s\t]
+
+//palavras reservadas: enunciado parte 2 - ask bool char define end elif else false float if int main repeat string tell true until while
+pr_ask = identificador: "ask"
+pr_bool = identificador: "bool"
+pr_char = identificador: "char"
+pr_define = identificador: "define"
+pr_end = identificador: "end"
+pr_elif = identificador:"elif"
+pr_else = identificador:"else"
+pr_false = identificador:"false"
+pr_float = identificador:"float"
+pr_if = identificador:"if"
+pr_int = identificador:"int"
+pr_main = identificador:"main"
+pr_repeat = identificador:"repeat"
+pr_string = identificador:"string"
+pr_tell = identificador:"tell"
+pr_true = identificador:"true"
+pr_until = identificador:"until"
+pr_while = identificador:"while"
+
+// simbolos especiais: enunciado parte 2 - : ; , = <- ( ) && || ! == != < <= > >= + - * / ^
+"&&"
+"||"
+"!"
+":"
+";"
+","
+"="
+"<-"
+"("
+")"
+"=="
+"!="
+"<"
+"<="
+">"
+">="
+"+"
+"-"
+"*"
+"/"
+"^"
+#NonTerminals
+<geral>
+
+<lista_de_inst1>
+<atribuicao_op>
+<entrada_op>
+<lista_exp_op>
+<repeticao_op>
+<id_lista_repete>
+<declara_var>
+<lista_de_inst>
+<instrucao>
+<lista_de_ids>
+<tipo>
+<atribuicao>
+<entrada_de_dados>
+<saida_de_dados>
+<selecao>
+<repeticao>
+<opcional_string>
+<lista_de_entrada>
+<lista_de_expressoes>
+<elif>
+<else>
+<expressao>
+<repete>
+<termo_logico>
+<fator>
+<fator_>
+<expressao_>
+<relacional>
+<termo_aritmetico>
+<elemento>
+<termo_aritmetico_>
+<relacional_>
+<aritmetica_>
+<operador_relacional> 
+<aritmetica>
+#Grammar
+<geral>::= pr_main <declara_var> <lista_de_inst> pr_end ;
+
+//<lista_de_inst>::= <instrucao> ";" | <instrucao> ";" <lista_de_inst> ;
+<lista_de_inst>::= <instrucao> ";" <lista_de_inst1> ;     
+
+<lista_de_inst1>::= î |  <lista_de_inst> ; 
+
+<declara_var>::= pr_define <tipo> ":" <lista_de_ids> ";" <repete> | î ;
+
+<repete>::= <tipo> ":" <lista_de_ids>  ";" <repete> | î ;
+
+<tipo>::= pr_bool | pr_char| pr_int | pr_float | pr_string ;
+
+//<lista_de_ids>::= identificador | identificador "," <lista_de_ids> ;
+
+<lista_de_ids>::= identificador <id_lista_repete> ;
+
+<id_lista_repete>::=  "," <lista_de_ids> | î ;
+
+<instrucao>::= <atribuicao> | <entrada_de_dados> | <saida_de_dados> | <selecao> | <repeticao> ;
+
+//<atribuicao>::= <lista_de_ids> "=" <expressao> | <lista_de_ids> "<-" <expressao> ;
+
+<atribuicao>::= <lista_de_ids> <atribuicao_op> ;
+
+<atribuicao_op>::= "=" <expressao> | "<-" <expressao> ;
+
+<entrada_de_dados>::= pr_ask "("<lista_de_entrada>")" ;
+
+//<lista_de_entrada>::= <opcional_string> identificador | <opcional_string> identificador "," <lista_de_entrada> ;
+
+<lista_de_entrada>::= <opcional_string> identificador <entrada_op> ;
+<entrada_op>::= î | "," <lista_de_entrada> ;
+
+<opcional_string>::= î | ctestring "," ;
+
+<saida_de_dados>::= pr_tell "(" <lista_de_expressoes> ")" ;
+
+//<lista_de_expressoes>::= <expressao> | <expressao> "," <lista_de_expressoes> ;
+
+<lista_de_expressoes>::= <expressao> <lista_exp_op> ;
+<lista_exp_op>::= "," <lista_de_expressoes> | î ;
+
+<selecao>::= pr_if <expressao> <lista_de_inst> <elif> <else> pr_end ;
+
+<elif>::= î | pr_elif <expressao> <lista_de_inst> <elif> ;
+
+<else>::= pr_else <lista_de_inst> | î ;
+  
+//<repeticao>::= pr_repeat <lista_de_inst> pr_while <expressao> | pr_repeat <lista_de_inst> pr_until <expressao> ;
+
+<repeticao>::= pr_repeat <lista_de_inst> <repeticao_op> ;
+<repeticao_op> ::= pr_while <expressao> | pr_until <expressao> ;
+
+<expressao> ::= <termo_logico> <expressao_> ;
+
+<expressao_> ::= î | "&&" <termo_logico> <expressao_> | "||" <termo_logico> <expressao_> ;
+
+<termo_logico> ::= <relacional> | pr_true | pr_false | "!" <termo_logico> ;
+
+<relacional> ::= <aritmetica> <relacional_> ;
+
+<relacional_> ::= î | <operador_relacional> <aritmetica> ;
+<operador_relacional>::= "==" | "!=" | "<" | "<=" | ">" |">=" ;
+
+<aritmetica> ::= <termo_aritmetico> <aritmetica_> ;
+
+<aritmetica_> ::= î | "+" <termo_aritmetico> <aritmetica_> | "-" <termo_aritmetico> <aritmetica_> ;
+
+<termo_aritmetico> ::= <fator> <termo_aritmetico_> ;
+
+<termo_aritmetico_> ::= î | "*" <fator> <termo_aritmetico_> | "/" <fator> <termo_aritmetico_> ;
+
+<fator> ::= <elemento> <fator_> ;
+
+<fator_> ::= î | "^" <elemento> <fator_> ;
+
+<elemento> ::= identificador | cteint |  ctefloat | ctechar | ctestring | "(" <expressao> ")" | "+" <elemento> | "-" <elemento> ;
+
+
